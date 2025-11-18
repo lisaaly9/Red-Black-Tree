@@ -21,11 +21,11 @@ public class RBNode {
     }
 
     public String colorString() {
-    if (red) {
-        return "\u001B[31m" + "R" + "\u001B[0m"; // merah
-    } else {
-        return "\u001B[30m" + "B" + "\u001B[0m"; // hitam
+        if (red) {
+            return "\u001B[31m" + "R" + "\u001B[0m"; // merah
+        } else {
+            return "\u001B[30m" + "B" + "\u001B[0m"; // hitam
+        }
     }
-}
 
 }

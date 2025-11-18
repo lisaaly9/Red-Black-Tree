@@ -39,7 +39,6 @@ public class Main {
         while (run) {
             System.out.println("\n--- Menu Manual ---");
             System.out.println("1. Insert key");
-            // System.out.println("2. Delete key");
             System.out.println("2. Cek key");
             System.out.println("3. Tampilkan tree & traversals");
             System.out.println("4. Kembali");
@@ -53,14 +52,6 @@ public class Main {
                     else System.out.println("Key " + k + " sudah ada.");
                     rbt.printTree();
                     break;
-                // case 2:
-                //     System.out.print("Masukkan key yang ingin dihapus: ");
-                //     int d = getInt(scanner);
-                //     if (rbt.delete(d)) {
-                //         System.out.println("Key " + d + " dihapus.");
-                //         rbt.printTree();
-                //     } else System.out.println("Key " + d + " tidak ditemukan.");
-                //     break;
                 case 2:
                     System.out.print("Masukkan key yang ingin dicek: ");
                     int q = getInt(scanner);
@@ -103,7 +94,6 @@ public class Main {
         while (run) {
             System.out.println("\n--- Menu Otomatis ---");
             System.out.println("1. Cek key");
-            // System.out.println("2. Hapus key");
             System.out.println("2. Tampilkan lagi");
             System.out.println("3. Generate ulang");
             System.out.println("4. Kembali");
@@ -115,14 +105,6 @@ public class Main {
                     int q = getInt(scanner);
                     System.out.println(rbt.contains(q) ? "Ditemukan" : "Tidak ditemukan");
                     break;
-                // case 2:
-                    // System.out.print("Masukkan key yang ingin dihapus: ");
-                    // int d = getInt(scanner);
-                    // if (rbt.delete(d)) {
-                    //     System.out.println("Key " + d + " dihapus.");
-                    //     rbt.printTree();
-                    // } else System.out.println("Key " + d + " tidak ditemukan.");
-                    // break;
                 case 2:
                     rbt.printTree();
                     System.out.println("Pre-order:"); rbt.preOrder();

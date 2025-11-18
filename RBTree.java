@@ -35,41 +35,45 @@ public class RBTree {
 
     private void insertFixup(RBNode z) {
         while (z.parent.red) {
-            if (z.parent == z.parent.parent.left) {
-                RBNode y = z.parent.parent.right; // uncle
-                if (y.red) {
-                    // case 1 : uncle merah
-                    z.parent.red = false;
-                    y.red = false;
-                    z.parent.parent.red = true;
-                    z = z.parent.parent;
+
+            RBNode parent = z.parent;
+            RBNode grandparent = z.parent.parent;
+
+            if (parent == grandparent.left) {
+                RBNode uncle = grandparent.right; // uncle
+                if (uncle.red) {
+                    // case 1 : parent & uncle merah
+                    parent.red = false;
+                    uncle.red = false;
+                    grandparent.red = true;
+                    z = grandparent;
                 } else {
-                    if (z == z.parent.right) {
+                    if (z == parent.right) {
                         // case 2 : uncle hitam & z adalah anak kanan / zigzag
-                        z = z.parent;
+                        z = parent;
                         leftRotate(z);
                     }
                     // case 3 : uncle hitam & node adalah anak kiri / lurus
-                    z.parent.red = false;
-                    z.parent.parent.red = true;
-                    rightRotate(z.parent.parent);
+                    parent.red = false;
+                    grandparent.red = true;
+                    rightRotate(grandparent);
                 }
             } else {
-                // mirror / sebaliknya
-                RBNode y = z.parent.parent.left;
-                if (y.red) {
-                    z.parent.red = false;
-                    y.red = false;
-                    z.parent.parent.red = true;
-                    z = z.parent.parent;
+                // mirror atau sebaliknya
+                RBNode uncle = grandparent.left;
+                if (uncle.red) {
+                    parent.red = false;
+                    uncle.red = false;
+                    grandparent.red = true;
+                    z = grandparent;
                 } else {
-                    if (z == z.parent.left) {
-                        z = z.parent;
+                    if (z == parent.left) {
+                        z = parent;
                         rightRotate(z);
                     }
-                    z.parent.red = false;
-                    z.parent.parent.red = true;
-                    leftRotate(z.parent.parent);
+                    parent.red = false;
+                    grandparent.red = true;
+                    leftRotate(grandparent);
                 }
             }
             if (z == root) break;
@@ -113,116 +117,6 @@ public class RBTree {
         }
         return node;
     }
-
-    // /* ----------------- DELETE ----------------- */
-    // public boolean delete(int key) {
-    //     RBNode z = searchNode(root, key);
-    //     if (z == NIL) return false;
-
-    //     RBNode y = z;
-    //     boolean yOriginalColor = y.red;
-    //     RBNode x;
-
-    //     if (z.left == NIL) {
-    //         x = z.right;
-    //         transplant(z, z.right);
-    //     } else if (z.right == NIL) {
-    //         x = z.left;
-    //         transplant(z, z.left);
-    //     } else {
-    //         y = minimum(z.right);
-    //         yOriginalColor = y.red;
-    //         x = y.right;
-    //         if (y.parent == z) {
-    //             x.parent = y;
-    //         } else {
-    //             transplant(y, y.right);
-    //             y.right = z.right;
-    //             y.right.parent = y;
-    //         }
-    //         transplant(z, y);
-    //         y.left = z.left;
-    //         y.left.parent = y;
-    //         y.red = z.red;
-    //     }
-
-    //     if (!yOriginalColor) {
-    //         deleteFixup(x);
-    //     }
-    //     return true;
-    // }
-
-    // private void transplant(RBNode u, RBNode v) {
-    //     if (u.parent == NIL) root = v;
-    //     else if (u == u.parent.left) u.parent.left = v;
-    //     else u.parent.right = v;
-    //     v.parent = u.parent;
-    // }
-
-    // private RBNode minimum(RBNode node) {
-    //     while (node.left != NIL) node = node.left;
-    //     return node;
-    // }
-
-    // private void deleteFixup(RBNode x) {
-    //     while (x != root && !x.red) {
-    //         if (x == x.parent.left) {
-    //             RBNode w = x.parent.right;
-    //             if (w.red) {
-    //                 // case 1
-    //                 w.red = false;
-    //                 x.parent.red = true;
-    //                 leftRotate(x.parent);
-    //                 w = x.parent.right;
-    //             }
-    //             if (!w.left.red && !w.right.red) {
-    //                 // case 2
-    //                 w.red = true;
-    //                 x = x.parent;
-    //             } else {
-    //                 if (!w.right.red) {
-    //                     // case 3
-    //                     w.left.red = false;
-    //                     w.red = true;
-    //                     rightRotate(w);
-    //                     w = x.parent.right;
-    //                 }
-    //                 // case 4
-    //                 w.red = x.parent.red;
-    //                 x.parent.red = false;
-    //                 w.right.red = false;
-    //                 leftRotate(x.parent);
-    //                 x = root;
-    //             }
-    //         } else {
-    //             // mirror
-    //             RBNode w = x.parent.left;
-    //             if (w.red) {
-    //                 w.red = false;
-    //                 x.parent.red = true;
-    //                 rightRotate(x.parent);
-    //                 w = x.parent.left;
-    //             }
-    //             if (!w.right.red && !w.left.red) {
-    //                 w.red = true;
-    //                 x = x.parent;
-    //             } else {
-    //                 if (!w.left.red) {
-    //                     w.right.red = false;
-    //                     w.red = true;
-    //                     leftRotate(w);
-    //                     w = x.parent.left;
-    //                 }
-    //                 w.red = x.parent.red;
-    //                 x.parent.red = false;
-    //                 w.left.red = false;
-    //                 rightRotate(x.parent);
-    //                 x = root;
-    //             }
-    //         }
-    //     }
-    //     x.red = false;
-    // }
 
     /* ----------------- CLEAR TREE ----------------- */
     public void clear() {
